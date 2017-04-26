@@ -70,5 +70,5 @@ class RequestEvent(models.Model):
 
     class Meta:
         verbose_name = 'request event'
-        verbose_name_plural = 'reques events'
+        verbose_name_plural = 'request events'
         ordering = ['-datetime']
