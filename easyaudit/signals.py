@@ -13,7 +13,7 @@ from django.utils import timezone
 from .middleware.easyaudit import get_current_request, get_current_user
 from .models import CRUDEvent, LoginEvent, RequestEvent
 from .settings import UNREGISTERED_CLASSES, WATCH_LOGIN_EVENTS, \
-    CRUD_DIFFERENCE_CALLBACKS
+    CRUD_DIFFERENCE_CALLBACKS, WATCH_MODEL_EVENTS, WATCH_REQUEST_EVENTS
 
 logger = logging.getLogger(__name__)
 
@@ -166,11 +166,14 @@ def request_started_handler(sender, environ, **kwargs):
     request_event.save()
 
 
-models_signals.post_save.connect(post_save,
-                                 dispatch_uid='easy_audit_signals_post_save')
-models_signals.post_delete.connect(post_delete,
-                                   dispatch_uid='easy_audit_signals_post_delete')
-request_started.connect(request_started_handler,
+if WATCH_MODEL_EVENTS:
+    models_signals.post_save.connect(post_save,
+                                     dispatch_uid='easy_audit_signals_post_save')
+    models_signals.post_delete.connect(post_delete,
+                                       dispatch_uid='easy_audit_signals_post_delete')
+
+if WATCH_REQUEST_EVENTS:
+    request_started.connect(request_started_handler,
                         dispatch_uid='easy_audit_signals_request_started')
 
 if WATCH_LOGIN_EVENTS:
