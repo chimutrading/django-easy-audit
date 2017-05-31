@@ -138,6 +138,8 @@ def user_login_failed(sender, credentials, **kwargs):
 
 
 def request_started_handler(sender, environ, **kwargs):
+    if 'HTTP_COOKIE' not in environ:
+        return
     cookie = SimpleCookie()
     cookie.load(environ['HTTP_COOKIE'])
     user = None
