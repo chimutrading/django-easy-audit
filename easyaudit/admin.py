@@ -20,3 +20,5 @@ admin.site.register(models.LoginEvent, LoginEventAdmin)
 
 class RequestEventAdmin(admin.ModelAdmin):
     list_display = ['datetime', 'type', 'user', 'uri', 'remote_ip']
+
+admin.site.register(models.RequestEvent, RequestEventAdmin)
